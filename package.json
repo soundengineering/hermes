@@ -1,0 +1,27 @@
+{
+  "name": "hermes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.454.0",
+    "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "jest": "^29.7.0",
+    "module-alias-jest": "^0.0.3"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "_moduleAliases": {
+    "@root": "src",
+    "@bennybtl": ".."
+  }
+}
