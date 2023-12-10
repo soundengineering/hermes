@@ -1,12 +1,12 @@
 // import aws sdk v3 for parameter store
 import { SSMClient, GetParametersByPathCommand } from '@aws-sdk/client-ssm'
 import db from './db/index.mjs'
+import dotenv from 'dotenv'
 
 export async function loadParams () {
   // if running locally, load environment variables from .env file
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'jest') {
     console.log('loading environment variables from .env file')
-    const dotenv = require('dotenv')
     dotenv.config()
     return Promise.resolve()
   }
