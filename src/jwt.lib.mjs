@@ -66,11 +66,21 @@ export async function verifyJWT ({ authorization }) {
   return decoded
 }
 
+export async function signJWT (payload) {
+  if (!(process.env.PRIVATE_KEY || process.env.PRIVATE_KEY.length > 0)) {
+    throw new Error('Forbidden')
+  }
+
+  const token = jwt.sign(payload, process.env.PRIVATE_KEY, { algorithm: 'RS256' })
+  return token
+}
+
 // exporting the default object allows us to mock the functions in tests
 const JwtLib = {
   findChannelAndRole,
   verifyRole,
   verifyJWT,
+  signJWT,
   jwt
 }
 

@@ -108,6 +108,7 @@ describe('JwtLib.verifyJWT', function () {
   afterEach(function () {
     jest.restoreAllMocks()
   })
+
   it('should throw an error if no public key', async function () {
     process.env.PUBLIC_KEY = ''
     try {
@@ -144,6 +145,26 @@ describe('JwtLib.verifyJWT', function () {
     const result = await JwtLib.verifyJWT({ authorization: token })
     expect(result).toEqual(payload)
   })
+})
 
-  // Add more tests as needed
+describe('JwtLib.signJWT', () => {
+  it('should throw an error if no private key', async () => {
+    process.env.PRIVATE_KEY = ''
+    try {
+      await JwtLib.signJWT({ authorization: 'sometoken' })
+      expect.fail('Expected error was not thrown')
+    } catch (err) {
+      expect(err.message).toBe('Forbidden')
+    }
+  })
+
+  it('should sign the token and return it', async function () {
+    process.env.PRIVATE_KEY = 'somekey'
+    const token = 'sometoken'
+    const payload = { some: 'payload' }
+    jest.spyOn(JwtLib.jwt, 'sign').mockImplementation(() => payload)
+
+    const result = await JwtLib.signJWT({ authorization: token })
+    expect(result).toEqual(payload)
+  })
 })
