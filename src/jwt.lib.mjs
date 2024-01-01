@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import db from '@root/db/index.mjs'
+import db from './db/index.mjs'
 
 export async function findChannelAndRole (channelId, userId) {
   const channel = await db.Channels.findOne({ id: channelId })
@@ -40,7 +40,9 @@ export async function verifyRole ({ channelId, userId, role }) {
   }
 }
 
-export async function verifyJWT ({ authorization }) {
+export async function verifyJWT (input) {
+  console.log('verifyJWT', input)
+  let authorization = input.headers.authorization
   if (!(process.env.PUBLIC_KEY || process.env.PUBLIC_KEY.length > 0)) {
     throw new Error('Forbidden')
   }

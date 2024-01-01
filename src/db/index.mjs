@@ -44,4 +44,4 @@ export class MongooseDbClass {
   }
 }
 
-export default new MongooseDbClass()
+export default MongooseDbClass
