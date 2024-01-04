@@ -1,14 +1,14 @@
 // import aws sdk v3 for parameter store
 import { SSMClient, GetParametersByPathCommand } from '@aws-sdk/client-ssm'
-import dotenv from 'dotenv'
 import { MongooseDbClass } from './db/index.mjs'
 import { verifyJWT, signJWT, findChannelAndRole, verifyRole } from './jwt.lib.mjs'
+import initSentry from './sentry.js'
+initSentry()
 
 async function loadParams () {
   // if running locally, load environment variables from .env file
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'jest') {
     console.log('loading environment variables from .env file')
-    dotenv.config()
     return Promise.resolve()
   }
 
@@ -40,7 +40,7 @@ export const logger = {
   }
 }
 
-const HermesLib = {
+export default {
   MongooseDbClass,
   loadParams,
   logger,
@@ -49,5 +49,3 @@ const HermesLib = {
   verifyRole,
   findChannelAndRole
 }
-
-export default HermesLib
