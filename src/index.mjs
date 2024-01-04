@@ -6,6 +6,8 @@ import initSentry from './sentry.js'
 initSentry()
 
 export * as getRandom from './getRandom.js'
+export * as networking from './networking.js'
+export { callService } from './networking.js'
 export { logger } from './logging.js'
 export { metrics } from './metrics.js'
 export { default as sanitise } from './sanitise.js'
