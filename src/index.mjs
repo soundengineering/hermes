@@ -5,8 +5,10 @@ import { verifyJWT, signJWT, findChannelAndRole, verifyRole } from './jwt.lib.mj
 import initSentry from './sentry.js'
 initSentry()
 
+export * as getRandom from './getRandom.js'
 export { logger } from './logging.js'
 export { metrics } from './metrics.js'
+export { default as sanitise } from './sanitise.js'
 
 async function loadParams () {
   // if running locally, load environment variables from .env file

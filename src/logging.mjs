@@ -22,8 +22,8 @@ function buildLogger () {
 if (process.env.NODE_ENV === 'production') {
   winstonTransports.push(
     new Loggly({
-      token: process.env.TOKEN_EXTERNAL_LOGGLY,
-      subdomain: process.env.EXTERNAL_LOGGLY_SUBDOMAIN,
+      token: process.env.LOGGLY_TOKEN,
+      subdomain: process.env.LOGGLY_SUBDOMAIN,
       tags: ['service'],
       json: true
     })
