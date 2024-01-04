@@ -6,6 +6,7 @@ import initSentry from './sentry.js'
 initSentry()
 
 export { logger } from './logging.js'
+export { metrics } from './metrics.js'
 
 async function loadParams () {
   // if running locally, load environment variables from .env file

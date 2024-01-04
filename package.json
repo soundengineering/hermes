@@ -7,6 +7,7 @@
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.454.0",
     "@sentry/node": "^7.91.0",
+    "hot-shots": "^10.0.0",
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "mongoose": "^8.0.1",
