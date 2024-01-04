@@ -5,6 +5,8 @@ import { verifyJWT, signJWT, findChannelAndRole, verifyRole } from './jwt.lib.mj
 import initSentry from './sentry.js'
 initSentry()
 
+export { logger } from './logging.js'
+
 async function loadParams () {
   // if running locally, load environment variables from .env file
   if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'jest') {
@@ -32,18 +34,9 @@ async function loadParams () {
   return data
 }
 
-export const logger = {
-  debug: (args) => {
-    if (process.env.DEBUG) {
-      console.log(...args)
-    }
-  }
-}
-
 export default {
   MongooseDbClass,
   loadParams,
-  logger,
   verifyJWT,
   signJWT,
   verifyRole,
