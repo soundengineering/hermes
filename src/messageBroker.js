@@ -13,7 +13,7 @@ class MessageBroker {
   
       this.handlers = {}
   
-      this.client.on('error', (err) => console.log('Message Broker Error', err))
+      this.client.on('error', (err) => console.error('Message Broker Error', err))
       this.client.on('connect', () => console.log('Message Broker Connected'))
     }
   }
@@ -27,13 +27,12 @@ class MessageBroker {
     await this.client.subscribe(channel, async (message) => {
       try {
         const update = JSON.parse(message)
-        console.log('Received update:', update)
 
         const handler = this.handlers[channel]
         if (handler) {
           await handler(update)
         } else {
-          console.log('Missing handler for channel:', channel)
+          console.error('Missing handler for channel:', channel)
         }
       } catch (error) {
         console.error('Error processing message:', error)
