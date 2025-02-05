@@ -2,44 +2,26 @@
   "name": "hermes",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.mjs",
+  "main": "src/index.js",
   "type": "module",
   "dependencies": {
-    "@aws-sdk/client-ssm": "^3.454.0",
-    "@sentry/node": "^7.91.0",
-    "hot-shots": "^10.0.0",
-    "jsonwebtoken": "^9.0.2",
-    "module-alias": "^2.2.3",
-    "mongoose": "^8.0.1",
     "node-fetch": "^3.3.2",
-    "winston": "^3.11.0",
-    "winston-loggly-bulk": "^3.3.0"
+    "redis": "^4.7.0"
   },
   "devDependencies": {
-    "aws-sdk-client-mock": "^3.0.0",
     "dotenv": "^16.3.1",
-    "jest": "^29.7.0",
-    "module-alias-jest": "^0.0.3",
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "vitest": "^1.1.0"
   },
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "standard": {
     "env": [
-      "jest"
+      "vitest"
     ]
-  },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.mjs"
-    ]
-  },
-  "author": "",
-  "license": "ISC",
-  "_moduleAliases": {
-    "@root": "src",
-    "@bennybtl": ".."
   }
 }
