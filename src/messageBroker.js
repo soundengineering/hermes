@@ -2,18 +2,25 @@ import { createClient } from 'redis'
 
 class MessageBroker {
   constructor () {
-    this.client = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379'
-    })
+    this.configured = false
+    this.available = false
 
-    this.handlers = {}
-
-    this.client.on('error', (err) => console.log('Message Broker Error', err))
-    this.client.on('connect', () => console.log('Message Broker Connected'))
+    if (process.env.MESSAGE_BROKER_URL) {
+      this.configured = true
+      this.client = createClient({
+        url: process.env.MESSAGE_BROKER_URL 
+      })
+  
+      this.handlers = {}
+  
+      this.client.on('error', (err) => console.log('Message Broker Error', err))
+      this.client.on('connect', () => console.log('Message Broker Connected'))
+    }
   }
 
   async connect () {
     await this.client.connect()
+    this.available = true
   }
 
   async subscribe (channel) {
