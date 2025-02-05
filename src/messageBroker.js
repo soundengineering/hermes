@@ -29,11 +29,11 @@ class MessageBroker {
         const update = JSON.parse(message)
         console.log('Received update:', update)
 
-        const handler = this.handlers[update.type]
+        const handler = this.handlers[channel]
         if (handler) {
           await handler(update)
         } else {
-          console.log('Unknown update type:', update.type)
+          console.log('Missing handler for channel:', channel)
         }
       } catch (error) {
         console.error('Error processing message:', error)
@@ -41,8 +41,8 @@ class MessageBroker {
     })
   }
 
-  registerHandler (type, handler) {
-    this.handlers[type] = handler
+  registerHandler (channel, handler) {
+    this.handlers[channel] = handler
   }
 
   async publish (channel, message) {
