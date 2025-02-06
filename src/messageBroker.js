@@ -1,15 +1,26 @@
 import { createClient } from 'redis'
 
 class MessageBroker {
-  constructor() {
-    this.client = null
-    this.handlers = {}
+  constructor () {
+    this.configured = false
+    this.available = false
+
+    if (process.env.MESSAGE_BROKER_URL) {
+      this.configured = true
+      this.client = createClient({
+        url: process.env.MESSAGE_BROKER_URL 
+      })
+  
+      this.handlers = {}
+  
+      this.client.on('error', (err) => console.error('Message Broker Error', err))
+      this.client.on('connect', () => console.log('Message Broker Connected'))
+    }
   }
 
-  async connect(config = {}) {
-    this.client = createClient(config)
+  async connect () {
     await this.client.connect()
-    return this
+    this.available = true
   }
 
   async subscribe (channel) {
@@ -42,9 +53,4 @@ class MessageBroker {
   }
 }
 
-// Create and export the instance
-const messageBroker = new MessageBroker()
-
-// Only use ESM exports - esbuild will handle the CommonJS conversion
-export { messageBroker }
-export default messageBroker
+export const messageBroker = new MessageBroker()
