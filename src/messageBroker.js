@@ -1,4 +1,11 @@
-import { createClient } from 'redis'
+// Use dynamic import for redis to support both ESM and CJS
+let createClient
+try {
+  const redis = await import('redis')
+  createClient = redis.createClient
+} catch {
+  createClient = require('redis').createClient
+}
 
 class MessageBroker {
   constructor () {
@@ -53,4 +60,14 @@ class MessageBroker {
   }
 }
 
-export const messageBroker = new MessageBroker()
+// Support both ESM and CJS exports
+const messageBroker = new MessageBroker()
+
+export { messageBroker }
+export default messageBroker
+
+// For CommonJS compatibility
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = messageBroker
+  module.exports.messageBroker = messageBroker
+}
