@@ -1,33 +1,15 @@
-// Use dynamic import for redis to support both ESM and CJS
-let createClient
-try {
-  const redis = await import('redis')
-  createClient = redis.createClient
-} catch {
-  createClient = require('redis').createClient
-}
+import { createClient } from 'redis'
 
 class MessageBroker {
-  constructor () {
-    this.configured = false
-    this.available = false
-
-    if (process.env.MESSAGE_BROKER_URL) {
-      this.configured = true
-      this.client = createClient({
-        url: process.env.MESSAGE_BROKER_URL 
-      })
-  
-      this.handlers = {}
-  
-      this.client.on('error', (err) => console.error('Message Broker Error', err))
-      this.client.on('connect', () => console.log('Message Broker Connected'))
-    }
+  constructor() {
+    this.client = null
+    this.handlers = {}
   }
 
-  async connect () {
+  async connect(config = {}) {
+    this.client = createClient(config)
     await this.client.connect()
-    this.available = true
+    return this
   }
 
   async subscribe (channel) {
@@ -60,14 +42,9 @@ class MessageBroker {
   }
 }
 
-// Support both ESM and CJS exports
+// Create and export the instance
 const messageBroker = new MessageBroker()
 
+// Only use ESM exports - esbuild will handle the CommonJS conversion
 export { messageBroker }
 export default messageBroker
-
-// For CommonJS compatibility
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = messageBroker
-  module.exports.messageBroker = messageBroker
-}

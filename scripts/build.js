@@ -9,18 +9,21 @@ const shared = {
   bundle: true,
   platform: 'node',
   external: ['redis'],
+  target: 'node14', // or whatever your target Node version is
 }
 
-// ESM build
-build({
-  ...shared,
-  format: 'esm',
-  outfile: 'dist/messageBroker.mjs',
-})
+Promise.all([
+  // ESM build
+  build({
+    ...shared,
+    format: 'esm',
+    outfile: 'dist/messageBroker.mjs',
+  }),
 
-// CJS build
-build({
-  ...shared,
-  format: 'cjs',
-  outfile: 'dist/messageBroker.cjs',
-}) 
+  // CJS build
+  build({
+    ...shared,
+    format: 'cjs',
+    outfile: 'dist/messageBroker.cjs',
+  })
+]).catch(() => process.exit(1)) 
